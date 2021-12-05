@@ -23,6 +23,16 @@
             ],
             "cwd": "${workspaceFolder}/day4/",
             "program": "${workspaceFolder}/day4/day4.js"
+        },
+        {
+            "type": "pwa-node",
+            "request": "launch",
+            "name": "day5",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "cwd": "${workspaceFolder}/day5/",
+            "program": "${workspaceFolder}/day5/day5.js"
         }
     ]
 }
