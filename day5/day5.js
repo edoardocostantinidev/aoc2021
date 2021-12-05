@@ -1,6 +1,6 @@
 const { count } = require('console');
 const fs = require('fs');
-const input = fs.readFileSync('test.txt', 'utf8');
+const input = fs.readFileSync('input.txt', 'utf8');
 const x1s = [];
 const x2s = [];
 const y1s = [];
@@ -62,80 +62,47 @@ for (let i = 0; i < x1s.length; i++) {
                 matrix[y1 + y][x1] += 1;
             }
         }
-    } else if (x1 == y1 && x2 == y2) {
-        // go diagonal
-        const difference = x2 - x1;
-        if (difference > 0) {
-            //go down-right
-            for (let x = difference; x >= 0; x--) {
-                matrix[y1 + x][x1 + x] += 1;
-            }
-        } else if (difference < 0) {
-            //go up-left
-            for (let x = difference; x <= 0; x++) {
-                matrix[y1 - x][x1 - x] += 1;
-            }
-        }
     }
-    else if (x1 == y2 && x2 == y1) {
-        const differenceX = x2 - x1;
-        const differenceY = y2 - y1;
-        if (differenceX > 0 && differenceY > 0) {
-            // go down right
-            for (let x = 0; x <= Math.abs(differenceX); x++) {
-                for (let y = 0; y <= Math.abs(differenceY); y++) {
-                    if (x == y) {
-                        matrix[y1 + y][x1 + x] += 1;
-                    }
+    else {
+        const dX = x2 - x1;
+        const dY = y2 - y1;
+        const dXAbs = Math.abs(dX);
+        const dYAbs = Math.abs(dY);
+        if (dXAbs == dYAbs) {
+            //diagonal
+            if (dX > 0 && dY > 0) {
+                //down right
+                for (let x = 0; x <= dXAbs; x++) {
+                    matrix[y1 + x][x1 + x] += 1;
                 }
             }
-        } else if (differenceX < 0 && differenceY > 0) {
-            // go down left
-            for (let x = 0; x <= Math.abs(differenceX); x++) {
-                for (let y = 0; y <= Math.abs(differenceY); y++) {
-                    if (x == y) {
-                        matrix[y1 + y][x1 - x] += 1;
-                    }
+            else if (dX > 0 && dY < 0) {
+                //up right
+                for (let x = 0; x <= dXAbs; x++) {
+                    matrix[y1 - x][x1 + x] += 1;
                 }
             }
-        }
-        else if (differenceX > 0 && differenceY < 0) {
-            // go up right
-            for (let x = 0; x <= Math.abs(differenceX); x++) {
-                for (let y = 0; y <= Math.abs(differenceY); y++) {
-                    if (x == y) {
-                        matrix[y1 - y][x1 + x] += 1;
-                    }
+            else if (dX < 0 && dY > 0) {
+                //down left
+                for (let x = 0; x <= dXAbs; x++) {
+                    matrix[y1 + x][x1 - x] += 1;
                 }
             }
-        }
-        else if (differenceX < 0 && differenceY < 0) {
-            // go up left
-            for (let x = 0; x <= Math.abs(differenceX); x++) {
-                for (let y = 0; y <= Math.abs(differenceY); y++) {
-                    if (x == y) {
-                        matrix[y1 - y][x1 - x] += 1;
-                    }
-                }
-            }
-        }
-        else if (Math.abs(differenceX) == Math.abs(differenceY)) {
-            // go diagonal
-            for (let x = 0; x <= Math.abs(differenceX); x++) {
-                for (let y = 0; y <= Math.abs(differenceY); y++) {
-                    if (x == y) {
-                        matrix[y1 + y][x1 + x] += 1;
-                    }
+            else if (dX < 0 && dY < 0) {
+                //up left
+                for (let x = 0; x <= dXAbs; x++) {
+                    matrix[y1 - x][x1 - x] += 1;
                 }
             }
         }
     }
+
 }
 function countMatrix(matrix) {
     let count = 0;
     for (let r = 0; r < matrix.length; r++) {
         const row = matrix[r];
-        console.log(...row);
+        //console.log(...row);
         count += row.filter((a) => a >= 2).length;
     }
     return count;
